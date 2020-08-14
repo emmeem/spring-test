@@ -54,8 +54,8 @@ public class RsService {
   }
 
   public ResponseEntity buy(Trade trade, int id) {
-    TradeDto tradeDto = tradeRepository.findAll().get(id-1);
-    if( tradeDto.getAmount() > trade.getAmount()){
+    Optional<TradeDto> tradeDto = tradeRepository.findById(id);
+    if( !tradeDto.isPresent()&&tradeDto.get().getAmount() > trade.getAmount()){
       return ResponseEntity.badRequest().build();
     }else {
       TradeDto tradeDtoToSave = TradeDto.builder().amount(trade.getAmount())

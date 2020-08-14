@@ -105,11 +105,25 @@ class RsServiceTest {
                     .build();
 
     Trade tradeToBuy = Trade.builder().amount(15).rank(1).build();
-    //when
+
     rsService.buy(tradeToBuy, 1);
 
     verify(tradeRepository).save(tradeDto);
   }
 
+  @Test
+  void shouldNotTradeWhenAmountIsNotEnough() {
+    TradeDto tradeDto =
+            TradeDto.builder()
+                    .amount(15)
+                    .rank(1)
+                    .build();
+
+    Trade tradeToBuy = Trade.builder().amount(5).rank(1).build();
+
+    rsService.buy(tradeToBuy, 1);
+
+    verify(tradeRepository).save(tradeDto);
+  }
 }
 
